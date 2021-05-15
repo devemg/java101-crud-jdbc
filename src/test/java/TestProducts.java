@@ -15,7 +15,7 @@ public class TestProducts {
         System.out.println(prod);
         prod.setBudget(15);
         prod.setDescription("Prueba de actualización");
-        productDao.update(7,prod);
+        productDao.update(prod);
         prod = productDao.select(7);
         System.out.println(prod);
     }

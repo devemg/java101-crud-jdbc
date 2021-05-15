@@ -122,7 +122,7 @@ public class ProductDAO {
         return result;
     }
 
-    public int update(int idProduct,Product product){
+    public int update(Product product){
         Connection conn = null;
         PreparedStatement pStatement = null;
         int result = 0;
@@ -134,7 +134,7 @@ public class ProductDAO {
             pStatement.setInt(3,product.getQuantity());
             pStatement.setString(4,product.getImage());
             pStatement.setString(5,product.getDescription());
-            pStatement.setInt(6,idProduct);
+            pStatement.setInt(6,product.getIdProduct());
             result = pStatement.executeUpdate();
         }catch (SQLException ex){
             ex.printStackTrace(System.err);
