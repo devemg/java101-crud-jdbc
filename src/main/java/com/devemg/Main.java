@@ -12,6 +12,7 @@ public class Main {
                     handlerProducts.createProduct();
                     break;
                 case 2: //list products
+                    handlerProducts.showAll();
                     break;
                 case 3: //see single product
                     break;
@@ -19,8 +20,12 @@ public class Main {
                     break;
                 case 5: //delete product
                     break;
+                case 6: //exit
+                    System.out.println("bye!");
+                    break;
                 default:
                     System.out.println("Option "+option+" not found");
+                    break;
             }
         } while (option!=6);
     }
