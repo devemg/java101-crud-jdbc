@@ -3,7 +3,7 @@ package com.devemg.data;
 import java.sql.*;
 
 public class MysqlConnection {
-    private static final String connectionString = "jdbc:mysql://localhost:3306/shop_list?useSSL=false&useTimeZone=true&serverTimeZone=UTC&allowPublicKeyRetrieval=true";
+    private static final String connectionString = "jdbc:mysql://localhost:3306/test_products?useSSL=false&useTimeZone=true&serverTimeZone=UTC&allowPublicKeyRetrieval=true";
     private static final String user = "root";
     private static final String password = "";
 

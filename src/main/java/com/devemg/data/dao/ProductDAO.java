@@ -7,10 +7,10 @@ import java.util.*;
 
 public class ProductDAO {
     // Define SQL sentences
-    private static final String SQL_SELECT = "SELECT id, name, budget, quantity, image, description FROM product";
-    private static final String SQL_SELECT_ONE = "SELECT id, name, budget, quantity, image, description FROM product WHERE id = ?";
-    private static final String SQL_INSERT = "INSERT INTO product(name, budget, quantity, image, description) VALUES (?,?,?,?,?)";
-    private static final String SQL_UPDATE = "UPDATE product SET name=?,budget=?,quantity=?,image=?, description=? WHERE id = ?";
+    private static final String SQL_SELECT = "SELECT id, name, price, quantity, description FROM product";
+    private static final String SQL_SELECT_ONE = "SELECT id, name, price, quantity,description FROM product WHERE id = ?";
+    private static final String SQL_INSERT = "INSERT INTO product(name, price, quantity, description) VALUES (?,?,?,?)";
+    private static final String SQL_UPDATE = "UPDATE product SET name=?,price=?,quantity=?, description=? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM product WHERE id = ?";
 
    public List<Product> selectAll(){
@@ -27,14 +27,11 @@ public class ProductDAO {
                products.add(new Product(
                        rs.getInt("id"),
                        rs.getString("name"),
-                       rs.getDouble("budget"),
+                       rs.getDouble("price"),
                        rs.getInt("quantity"),
-                       rs.getString("image"),
                        rs.getString("description")
                ));
            }
-
-
        }catch (SQLException ex){
            ex.printStackTrace(System.err);
        }
@@ -65,9 +62,8 @@ public class ProductDAO {
                 product = new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getDouble("budget"),
+                        rs.getDouble("price"),
                         rs.getInt("quantity"),
-                        rs.getString("image"),
                         rs.getString("description")
                 );
             }
@@ -101,10 +97,9 @@ public class ProductDAO {
             conn = getConnection();
             pStatement = conn.prepareStatement(SQL_INSERT);
             pStatement.setString(1,product.getName());
-            pStatement.setDouble(2,product.getBudget());
+            pStatement.setDouble(2,product.getprice());
             pStatement.setInt(3,product.getQuantity());
-            pStatement.setString(4,product.getImage());
-            pStatement.setString(5,product.getDescription());
+            pStatement.setString(4,product.getDescription());
             result = pStatement.executeUpdate();
             
         }catch (SQLException ex){
@@ -130,11 +125,10 @@ public class ProductDAO {
             conn = getConnection();
             pStatement = conn.prepareStatement(SQL_UPDATE);
             pStatement.setString(1,product.getName());
-            pStatement.setDouble(2,product.getBudget());
+            pStatement.setDouble(2,product.getprice());
             pStatement.setInt(3,product.getQuantity());
-            pStatement.setString(4,product.getImage());
-            pStatement.setString(5,product.getDescription());
-            pStatement.setInt(6,product.getIdProduct());
+            pStatement.setString(4,product.getDescription());
+            pStatement.setInt(5,product.getIdProduct());
             result = pStatement.executeUpdate();
         }catch (SQLException ex){
             ex.printStackTrace(System.err);

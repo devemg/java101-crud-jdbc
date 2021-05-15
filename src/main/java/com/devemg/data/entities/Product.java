@@ -3,9 +3,8 @@ package com.devemg.data.entities;
 public class Product {
     private int idProduct;
     private String name;
-    private double budget;
+    private double price;
     private int quantity;
-    private String image;
     private String description;
 
     public Product(){
@@ -23,17 +22,14 @@ public class Product {
     /**
      * Create Product
      * @param name
-     * @param budget
+     * @param price
      * @param quantity
-     * @param image
      * @param description
      */
-    public Product(String name, double budget, int quantity, String image,
-                   String description){
+    public Product(String name, double price, int quantity,String description){
         this.name = name;
-        this.budget = budget;
+        this.price = price;
         this.quantity = quantity;
-        this.image = image;
         this.description = description;
     }
 
@@ -41,18 +37,15 @@ public class Product {
      * Show product
      * @param idProduct
      * @param name
-     * @param budget
+     * @param price
      * @param quantity
-     * @param image
      * @param description
      */
-    public Product(int idProduct,String name, double budget, int quantity, String image,
-                   String description){
+    public Product(int idProduct,String name, double price, int quantity,String description){
         this.idProduct = idProduct;
         this.name = name;
-        this.budget = budget;
+        this.price = price;
         this.quantity = quantity;
-        this.image = image;
         this.description = description;
     }
 
@@ -72,12 +65,12 @@ public class Product {
         this.name = name;
     }
 
-    public double getBudget() {
-        return budget;
+    public double getprice() {
+        return price;
     }
 
-    public void setBudget(double budget) {
-        this.budget = budget;
+    public void setprice(double price) {
+        this.price = price;
     }
 
     public int getQuantity() {
@@ -86,14 +79,6 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getDescription() {
@@ -109,9 +94,8 @@ public class Product {
         return "Product{" +
                 "idProduct:" + idProduct +
                 ", name:'" + name + '\'' +
-                ", budget:" + budget +
+                ", price:" + price +
                 ", quantity:" + quantity +
-                ", image:'" + image + '\'' +
                 ", description:'" + description + '\'' +
                 '}';
     }
