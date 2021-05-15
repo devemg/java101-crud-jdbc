@@ -1,7 +1,5 @@
-import com.devemg.ShopList.dao.ProductDAO;
-import com.devemg.ShopList.entities.Product;
-
-import java.util.List;
+import com.devemg.data.dao.ProductDAO;
+import com.devemg.data.entities.Product;
 
 public class TestProducts {
     public static void main(String[] args) {

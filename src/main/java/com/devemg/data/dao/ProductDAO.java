@@ -1,6 +1,6 @@
-package com.devemg.ShopList.dao;
+package com.devemg.data.dao;
 
-import com.devemg.ShopList.entities.Product;
+import com.devemg.data.entities.Product;
 import static com.devemg.data.MysqlConnection.*;
 import java.sql.*;
 import java.util.*;

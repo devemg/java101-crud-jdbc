@@ -1,6 +1,4 @@
-package com.devemg.ShopList.entities;
-
-import com.sun.source.util.SimpleTreeVisitor;
+package com.devemg.data.entities;
 
 public class Product {
     private int idProduct;
