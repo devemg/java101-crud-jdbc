@@ -101,21 +101,23 @@ public class HandlerProducts {
                 System.out.print("Name["+product.getName()+"]:");
                 String name = scanner.nextLine();
                 System.out.print("Price["+product.getprice()+"]:");
-                double price = scanner.nextDouble();
-                scanner.nextLine(); //consume \n
+                String price = scanner.nextLine();
                 System.out.print("Quantity["+product.getQuantity()+"]:");
-                int qty = scanner.nextInt();
-                scanner.nextLine(); //consume \n
+                String qty = scanner.nextLine();
                 System.out.print("Description["+product.getDescription()+"]:");
                 String desc = scanner.nextLine();
                 if(!name.equals("")){
                     product.setName(name);
                 }
                 if(!desc.equals("")){
-                    product.setDescription(name);
+                    product.setDescription(desc);
                 }
-                product.setprice(price);
-                product.setQuantity(qty);
+                if(tryParseDouble(price)){
+                    product.setprice(Double.parseDouble(price));
+                }
+                if(tryParseInt(qty)){
+                    product.setQuantity(Integer.parseInt(qty));
+                }
                 int result = productDao.update(product);
                 if(result > 0) {
                     System.out.println("product updated!");
@@ -173,7 +175,7 @@ public class HandlerProducts {
             if(!host.equals("")){
                 MysqlConnection.setHost(host);
             }
-            if(tryParseInt(port) && !port.equals("")){
+            if(tryParseInt(port)){
                MysqlConnection.setPort(Integer.parseInt(port));
             }
             if(!database.equals("")){
@@ -201,6 +203,16 @@ public class HandlerProducts {
 
     public boolean tryParseInt(String value) {
         try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean tryParseDouble(String value) {
+        try {
+            Double.parseDouble(value);
             return true;
         } catch (NumberFormatException e) {
             return false;
