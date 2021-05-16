@@ -15,6 +15,7 @@ public class Main {
                     handlerProducts.showAll();
                     break;
                 case 3: //see single product
+                    handlerProducts.showOne();
                     break;
                 case 4: //update product
                     break;

@@ -64,4 +64,25 @@ public class HandlerProducts {
         products.forEach(System.out::println);
         new Scanner(System.in).nextLine();
     }
+
+    public void showOne() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Let's see a product!");
+            System.out.println("Give me an id of any product and I'll show it");
+            int id = scanner.nextInt();
+            Product product = productDao.select(id);
+            scanner.nextLine(); //consume \n
+            if(product != null) {
+                System.out.println(product);
+            }else {
+                System.out.println("Product not found");
+            }
+            scanner.nextLine();
+        }catch (InputMismatchException ex) {
+            System.out.println("oh no! the input was type wrong.\n come back and try again.");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
+    }
 }
