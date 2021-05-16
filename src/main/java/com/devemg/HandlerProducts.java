@@ -86,6 +86,51 @@ public class HandlerProducts {
         }
     }
 
+    public void update() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Let's update a product!");
+            System.out.println("Give me all the data to update the product.");
+            System.out.println("Id of product: ");
+            int id = scanner.nextInt();
+            scanner.nextLine(); //consume \n
+            Product product = productDao.select(id);
+            if(product != null) {
+                System.out.print("Name["+product.getName()+"]:");
+                String name = scanner.nextLine();
+                System.out.print("Price["+product.getprice()+"]:");
+                double price = scanner.nextDouble();
+                scanner.nextLine(); //consume \n
+                System.out.print("Quantity["+product.getQuantity()+"]:");
+                int qty = scanner.nextInt();
+                scanner.nextLine(); //consume \n
+                System.out.print("Description["+product.getDescription()+"]:");
+                String desc = scanner.nextLine();
+                if(!name.equals("\n")){
+                    product.setName(name);
+                }
+                if(!desc.equals("\n")){
+                    product.setDescription(name);
+                }
+                product.setprice(price);
+                product.setQuantity(qty);
+                int result = productDao.update(product);
+                if(result > 0) {
+                    System.out.println("product updated!");
+                }else {
+                    System.out.println("product not updated");
+                }
+            }else {
+                System.out.println("Product not found");
+            }
+            scanner.nextLine();
+        }catch (InputMismatchException ex) {
+            System.out.println("oh no! the input was type wrong.\n come back and try again.");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
+    }
+
     public void delete() {
         Scanner scanner = new Scanner(System.in);
         try {
