@@ -1,6 +1,8 @@
 package com.devemg.data.dao;
 
 import com.devemg.data.entities.Product;
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+
 import static com.devemg.data.MysqlConnection.*;
 import java.sql.*;
 import java.util.*;
@@ -32,18 +34,21 @@ public class ProductDAO {
                        rs.getString("description")
                ));
            }
+       }catch (SQLSyntaxErrorException ex){
+           System.err.println("Error: "+ex.getMessage());
+       }catch (CommunicationsException ex){
+           System.err.println("Error: Can't connect with database server");
        }catch (SQLException ex){
            ex.printStackTrace(System.err);
        }
        finally {
            try {
-               close(rs);
-               close(pStatement);
-               close(conn);
+               if(rs != null)close(rs);
+               if(pStatement != null)close(pStatement);
+               if(conn != null)close(conn);
            } catch (SQLException throwables) {
-               throwables.printStackTrace();
+               //throwables.printStackTrace();
            }
-
        }
     return products;
    }
@@ -69,14 +74,18 @@ public class ProductDAO {
             }
 
 
+        }catch (SQLSyntaxErrorException ex){
+            System.err.println("Error: "+ex.getMessage());
+        }catch (CommunicationsException ex){
+            System.err.println("Error: Can't connect with database server");
         }catch (SQLException ex){
             ex.printStackTrace(System.err);
         }
         finally {
             try {
-                close(rs);
-                close(pStatement);
-                close(conn);
+                if(rs != null)close(rs);
+                if(pStatement != null)close(pStatement);
+                if(conn != null)close(conn);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -102,13 +111,17 @@ public class ProductDAO {
             pStatement.setString(4,product.getDescription());
             result = pStatement.executeUpdate();
             
+        }catch (SQLSyntaxErrorException ex){
+            System.err.println("Error: "+ex.getMessage());
+        }catch (CommunicationsException ex){
+            System.err.println("Error: Can't connect with database server");
         }catch (SQLException ex){
             ex.printStackTrace(System.err);
         }
         finally {
             try {
-                close(pStatement);
-                close(conn);
+                if(pStatement != null)close(pStatement);
+                if(conn != null)close(conn);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -130,13 +143,17 @@ public class ProductDAO {
             pStatement.setString(4,product.getDescription());
             pStatement.setInt(5,product.getIdProduct());
             result = pStatement.executeUpdate();
+        }catch (SQLSyntaxErrorException ex){
+            System.err.println("Error: "+ex.getMessage());
+        }catch (CommunicationsException ex){
+            System.err.println("Error: Can't connect with database server");
         }catch (SQLException ex){
             ex.printStackTrace(System.err);
         }
         finally {
             try {
-                close(pStatement);
-                close(conn);
+                if(pStatement != null)close(pStatement);
+                if(conn != null)close(conn);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -154,13 +171,17 @@ public class ProductDAO {
             pStatement = conn.prepareStatement(SQL_DELETE);
             pStatement.setInt(1,idProduct);
             result = pStatement.executeUpdate();
+        }catch (SQLSyntaxErrorException ex){
+            System.err.println("Error: "+ex.getMessage());
+        }catch (CommunicationsException ex){
+            System.err.println("Error: Can't connect with database server");
         }catch (SQLException ex){
             ex.printStackTrace(System.err);
         }
         finally {
             try {
-                close(pStatement);
-                close(conn);
+                if(pStatement != null)close(pStatement);
+                if(conn != null)close(conn);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
