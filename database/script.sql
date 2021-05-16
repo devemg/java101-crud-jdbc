@@ -1,6 +1,6 @@
-create database test_products;
+create database if not exists test_products;
 use test_products;
-create table product(
+create table if not exists product(
                         id int not null auto_increment primary key ,
                         name varchar(200) not null,
                         price double not null default 0,
