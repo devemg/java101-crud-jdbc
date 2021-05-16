@@ -1,5 +1,8 @@
 package com.devemg.data;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class MysqlConnection {
@@ -11,7 +14,17 @@ public class MysqlConnection {
     private static String database ="test_products";
 
     public static Connection getConnection() throws SQLException{
-        return DriverManager.getConnection(connectionString,user,password);
+        return getDatasource().getConnection();
+    }
+
+    public  static DataSource getDatasource(){
+        BasicDataSource ds = new BasicDataSource();
+        ds.setUrl(connectionString);
+        ds.setUsername(user);
+        ds.setPassword(password);
+        //pool default size
+        ds.setInitialSize(2);
+        return ds;
     }
 
     public static void close(ResultSet rs) throws SQLException {
@@ -39,10 +52,8 @@ public class MysqlConnection {
     }
 
     public static void reloadStringConnection() {
-        StringBuilder builder = new StringBuilder("jdbc:mysql://");
-        builder.append(host).append(":").append(port).append("/").append(database);
-        builder.append("?useSSL=false&useTimeZone=true&serverTimeZone=UTC&allowPublicKeyRetrieval=true");
-        connectionString = builder.toString();
+        connectionString = "jdbc:mysql://" + host + ":" + port + "/" + database +
+                "?useSSL=false&useTimeZone=true&serverTimeZone=UTC&allowPublicKeyRetrieval=true";
     }
 
     public static String getHost() {
