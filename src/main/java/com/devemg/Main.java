@@ -20,6 +20,7 @@ public class Main {
                 case 4: //update product
                     break;
                 case 5: //delete product
+                    handlerProducts.delete();
                     break;
                 case 6: //exit
                     System.out.println("bye!");

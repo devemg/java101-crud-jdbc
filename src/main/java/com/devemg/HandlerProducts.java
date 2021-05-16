@@ -85,4 +85,25 @@ public class HandlerProducts {
             scanner.nextLine();
         }
     }
+
+    public void delete() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Let's delete a product!");
+            System.out.println("Give me an id of any product and I'll delete it");
+            int id = scanner.nextInt();
+            int result = productDao.delete(id);
+            scanner.nextLine(); //consume \n
+            if(result > 0) {
+                System.out.println("Product deleted!");
+            }else {
+                System.out.println("Product not found");
+            }
+            scanner.nextLine();
+        }catch (InputMismatchException ex) {
+            System.out.println("oh no! the input was type wrong.\n come back and try again.");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
+    }
 }
