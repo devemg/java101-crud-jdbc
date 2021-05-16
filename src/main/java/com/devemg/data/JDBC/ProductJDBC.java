@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.*;
 
 public class ProductJDBC implements ProductDAO {
+
+    private Connection transConnection;
+
     // Define SQL sentences
     private static final String SQL_SELECT = "SELECT id, name, price, quantity, description FROM product";
     private static final String SQL_SELECT_ONE = "SELECT id, name, price, quantity,description FROM product WHERE id = ?";
@@ -16,14 +19,22 @@ public class ProductJDBC implements ProductDAO {
     private static final String SQL_UPDATE = "UPDATE product SET name=?,price=?,quantity=?, description=? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM product WHERE id = ?";
 
-   public List<Product> select(){
+    public ProductJDBC(Connection conn){
+        this.transConnection = conn;
+    }
+
+    public ProductJDBC(){
+        super();
+    }
+
+   public List<Product> select() throws SQLException{
        Connection conn = null;
        PreparedStatement pStatement = null;
        ResultSet rs = null;
        List<Product> products = new ArrayList<>();
 
        try {
-           conn = getConnection();
+           conn = this.transConnection !=null?this.transConnection:getConnection();
            pStatement = conn.prepareStatement(SQL_SELECT);
            rs = pStatement.executeQuery();
            while (rs.next()){
@@ -39,14 +50,14 @@ public class ProductJDBC implements ProductDAO {
            System.err.println("Error: "+ex.getMessage());
        }catch (CommunicationsException ex){
            System.err.println("Error: Can't connect with database server");
-       }catch (SQLException ex){
-           ex.printStackTrace(System.err);
        }
        finally {
            try {
                if(rs != null)close(rs);
                if(pStatement != null)close(pStatement);
-               if(conn != null)close(conn);
+               if(conn != null) {
+                   if(this.transConnection == null )close(conn);
+               }
            } catch (SQLException throwables) {
                //throwables.printStackTrace();
            }
@@ -54,13 +65,13 @@ public class ProductJDBC implements ProductDAO {
     return products;
    }
 
-    public Product select(int idProduct){
+    public Product select(int idProduct) throws SQLException{
         Connection conn = null;
         PreparedStatement pStatement = null;
         ResultSet rs = null;
         Product product = null;
         try {
-            conn = getConnection();
+            conn = this.transConnection !=null?this.transConnection:getConnection();
             pStatement = conn.prepareStatement(SQL_SELECT_ONE);
             pStatement.setInt(1,idProduct);
             rs = pStatement.executeQuery();
@@ -79,14 +90,14 @@ public class ProductJDBC implements ProductDAO {
             System.err.println("Error: "+ex.getMessage());
         }catch (CommunicationsException ex){
             System.err.println("Error: Can't connect with database server");
-        }catch (SQLException ex){
-            ex.printStackTrace(System.err);
         }
         finally {
             try {
                 if(rs != null)close(rs);
                 if(pStatement != null)close(pStatement);
-                if(conn != null)close(conn);
+                if(conn != null) {
+                    if(this.transConnection == null) close(conn);
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -95,7 +106,7 @@ public class ProductJDBC implements ProductDAO {
         return product;
     }
 
-    public int insert(Product product){
+    public int insert(Product product) throws SQLException{
        // vaidate name
         if(product.getName() == null) {
             return 0;
@@ -104,7 +115,7 @@ public class ProductJDBC implements ProductDAO {
         PreparedStatement pStatement = null;
         int result = 0;
         try {
-            conn = getConnection();
+            conn = this.transConnection !=null?this.transConnection:getConnection();
             pStatement = conn.prepareStatement(SQL_INSERT);
             pStatement.setString(1,product.getName());
             pStatement.setDouble(2,product.getprice());
@@ -116,13 +127,13 @@ public class ProductJDBC implements ProductDAO {
             System.err.println("Error: "+ex.getMessage());
         }catch (CommunicationsException ex){
             System.err.println("Error: Can't connect with database server");
-        }catch (SQLException ex){
-            ex.printStackTrace(System.err);
         }
         finally {
             try {
                 if(pStatement != null)close(pStatement);
-                if(conn != null)close(conn);
+                if(conn != null) {
+                    if(this.transConnection == null) close(conn);
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -131,12 +142,12 @@ public class ProductJDBC implements ProductDAO {
         return result;
     }
 
-    public int update(Product product){
+    public int update(Product product) throws SQLException{
         Connection conn = null;
         PreparedStatement pStatement = null;
         int result = 0;
         try {
-            conn = getConnection();
+            conn = this.transConnection !=null?this.transConnection:getConnection();
             pStatement = conn.prepareStatement(SQL_UPDATE);
             pStatement.setString(1,product.getName());
             pStatement.setDouble(2,product.getprice());
@@ -148,13 +159,13 @@ public class ProductJDBC implements ProductDAO {
             System.err.println("Error: "+ex.getMessage());
         }catch (CommunicationsException ex){
             System.err.println("Error: Can't connect with database server");
-        }catch (SQLException ex){
-            ex.printStackTrace(System.err);
         }
         finally {
             try {
                 if(pStatement != null)close(pStatement);
-                if(conn != null)close(conn);
+                if(conn != null) {
+                    if(this.transConnection == null) close(conn);
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -163,12 +174,12 @@ public class ProductJDBC implements ProductDAO {
         return result;
     }
 
-    public int delete(int idProduct){
+    public int delete(int idProduct) throws SQLException{
         Connection conn = null;
         PreparedStatement pStatement = null;
         int result = 0;
         try {
-            conn = getConnection();
+            conn = this.transConnection !=null?this.transConnection:getConnection();
             pStatement = conn.prepareStatement(SQL_DELETE);
             pStatement.setInt(1,idProduct);
             result = pStatement.executeUpdate();
@@ -176,13 +187,13 @@ public class ProductJDBC implements ProductDAO {
             System.err.println("Error: "+ex.getMessage());
         }catch (CommunicationsException ex){
             System.err.println("Error: Can't connect with database server");
-        }catch (SQLException ex){
-            ex.printStackTrace(System.err);
         }
         finally {
             try {
                 if(pStatement != null)close(pStatement);
-                if(conn != null)close(conn);
+                if(conn != null) {
+                    if(this.transConnection == null) close(conn);
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

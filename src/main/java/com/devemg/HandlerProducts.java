@@ -5,6 +5,7 @@ import com.devemg.data.MysqlConnection;
 import com.devemg.data.dao.ProductDAO;
 import com.devemg.data.entities.Product;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -53,7 +54,9 @@ public class HandlerProducts {
                 System.out.println("oh no! product can't be created");
             }
             scanner.nextLine();
-        }catch (InputMismatchException ex) {
+        }catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }catch(InputMismatchException ex) {
             System.out.println("oh no! the input was type wrong.\n come back and try again.");
             scanner.nextLine();
             scanner.nextLine();
@@ -61,10 +64,15 @@ public class HandlerProducts {
     }
 
     public void showAll() {
-        System.out.println("Let's list all products!");
-        List<Product> products = this.productJDBC.select();
-        products.forEach(System.out::println);
-        new Scanner(System.in).nextLine();
+        try {
+            System.out.println("Let's list all products!");
+            List<Product> products = this.productJDBC.select();
+            products.forEach(System.out::println);
+            new Scanner(System.in).nextLine();
+        }
+        catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
     public void showOne() {
@@ -81,6 +89,8 @@ public class HandlerProducts {
                 System.out.println("Product not found");
             }
             scanner.nextLine();
+        }catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }catch (InputMismatchException ex) {
             System.out.println("oh no! the input was type wrong.\n come back and try again.");
             scanner.nextLine();
@@ -128,6 +138,8 @@ public class HandlerProducts {
                 System.out.println("Product not found");
             }
             scanner.nextLine();
+        }catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }catch (InputMismatchException ex) {
             System.out.println("oh no! the input was type wrong.\n come back and try again.");
             scanner.nextLine();
@@ -149,6 +161,8 @@ public class HandlerProducts {
                 System.out.println("Product not found");
             }
             scanner.nextLine();
+        }catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }catch (InputMismatchException ex) {
             System.out.println("oh no! the input was type wrong.\n come back and try again.");
             scanner.nextLine();
