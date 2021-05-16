@@ -1,3 +1,4 @@
+import com.devemg.data.JDBC.ProductJDBC;
 import com.devemg.data.dao.ProductDAO;
 import com.devemg.data.entities.Product;
 
@@ -5,29 +6,29 @@ import java.util.List;
 
 public class TestProducts {
     public static void main(String[] args) {
-        ProductDAO productDao = new ProductDAO();
+        ProductDAO productJDBC = new ProductJDBC();
 
         //create
-        int result = productDao.insert(new Product("Fideos", 3, 10,"Paquete de fideos"));
+        int result = productJDBC.insert(new Product("Fideos", 3, 10,"Paquete de fideos"));
         System.out.println(result>0?"INSERTADO":"NO INSERTADO");
 
         //select all
-        List<Product> products = productDao.selectAll();
+        List<Product> products = productJDBC.select();
         products.forEach(System.out::println);
         int total = products.size();
         //select one
-        Product prod = productDao.select(total);
+        Product prod = productJDBC.select(total);
         // update
         prod.setprice(15);
         prod.setDescription("Prueba de actualización");
-        productDao.update(prod);
-        prod = productDao.select(total);
+        productJDBC.update(prod);
+        prod = productJDBC.select(total);
         System.out.println(prod);
-        productDao.insert(new Product("Fideos", 3, 10,"Paquete de fideos"));
+        productJDBC.insert(new Product("Fideos", 3, 10,"Paquete de fideos"));
         total++;
-        productDao.delete(total);
+        productJDBC.delete(total);
         System.out.println("SELECT ALL -------------------------------------------");
-        products = productDao.selectAll();
+        products = productJDBC.select();
         products.forEach(System.out::println);
 
     }

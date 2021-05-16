@@ -1,19 +1,19 @@
 package com.devemg;
 
+import com.devemg.data.JDBC.ProductJDBC;
 import com.devemg.data.MysqlConnection;
 import com.devemg.data.dao.ProductDAO;
 import com.devemg.data.entities.Product;
 
-import javax.swing.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class HandlerProducts {
-    private final ProductDAO productDao;
+    private final ProductDAO productJDBC;
 
     public HandlerProducts() {
-        this.productDao = new ProductDAO();
+        this.productJDBC = new ProductJDBC();
     }
 
     public int showMenu(){
@@ -46,7 +46,7 @@ public class HandlerProducts {
             System.out.println("Description: ");
             String desc = scanner.nextLine();
 
-            int insert = this.productDao.insert(new Product(name,price,qty,desc));
+            int insert = this.productJDBC.insert(new Product(name,price,qty,desc));
             if(insert > 0) {
                 System.out.println("Product created!");
             }else {
@@ -62,7 +62,7 @@ public class HandlerProducts {
 
     public void showAll() {
         System.out.println("Let's list all products!");
-        List<Product> products = this.productDao.selectAll();
+        List<Product> products = this.productJDBC.select();
         products.forEach(System.out::println);
         new Scanner(System.in).nextLine();
     }
@@ -73,7 +73,7 @@ public class HandlerProducts {
             System.out.println("Let's see a product!");
             System.out.println("Give me an id of any product and I'll show it");
             int id = scanner.nextInt();
-            Product product = productDao.select(id);
+            Product product = productJDBC.select(id);
             scanner.nextLine(); //consume \n
             if(product != null) {
                 System.out.println(product);
@@ -96,7 +96,7 @@ public class HandlerProducts {
             System.out.println("Id of product: ");
             int id = scanner.nextInt();
             scanner.nextLine(); //consume \n
-            Product product = productDao.select(id);
+            Product product = productJDBC.select(id);
             if(product != null) {
                 System.out.print("Name["+product.getName()+"]:");
                 String name = scanner.nextLine();
@@ -118,7 +118,7 @@ public class HandlerProducts {
                 if(tryParseInt(qty)){
                     product.setQuantity(Integer.parseInt(qty));
                 }
-                int result = productDao.update(product);
+                int result = productJDBC.update(product);
                 if(result > 0) {
                     System.out.println("product updated!");
                 }else {
@@ -141,7 +141,7 @@ public class HandlerProducts {
             System.out.println("Let's delete a product!");
             System.out.println("Give me an id of any product and I'll delete it");
             int id = scanner.nextInt();
-            int result = productDao.delete(id);
+            int result = productJDBC.delete(id);
             scanner.nextLine(); //consume \n
             if(result > 0) {
                 System.out.println("Product deleted!");
