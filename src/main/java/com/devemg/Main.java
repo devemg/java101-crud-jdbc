@@ -1,10 +1,10 @@
 package com.devemg;
 
 public class Main {
-
+    private static final int LAST_OPTION_MENU = 7;
     public static void main(String[] args) {
         HandlerProducts handlerProducts = new HandlerProducts();
-        int option = 6;
+        int option;
         do {
             option = handlerProducts.showMenu();
             switch (option) {
@@ -18,11 +18,13 @@ public class Main {
                         handlerProducts.update();
                 case 5 -> //delete product
                         handlerProducts.delete();
-                case 6 -> //exit
+                case 6 -> //config database
+                        handlerProducts.updateDatabase();
+                case LAST_OPTION_MENU -> //exit
                         System.out.println("bye!");
                 default -> System.out.println("Option " + option + " not found");
             }
-        } while (option!=6);
+        } while (option!=LAST_OPTION_MENU);
     }
 
 

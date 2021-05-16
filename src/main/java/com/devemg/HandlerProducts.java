@@ -1,5 +1,6 @@
 package com.devemg;
 
+import com.devemg.data.MysqlConnection;
 import com.devemg.data.dao.ProductDAO;
 import com.devemg.data.entities.Product;
 
@@ -25,7 +26,8 @@ public class HandlerProducts {
         System.out.println("3. See single product");
         System.out.println("4. Update product");
         System.out.println("5. Delete product");
-        System.out.println("6. Exit");
+        System.out.println("6. Config database");
+        System.out.println("7. Exit");
         return scanner.nextInt();
     }
 
@@ -106,10 +108,10 @@ public class HandlerProducts {
                 scanner.nextLine(); //consume \n
                 System.out.print("Description["+product.getDescription()+"]:");
                 String desc = scanner.nextLine();
-                if(!name.equals("\n")){
+                if(!name.equals("")){
                     product.setName(name);
                 }
-                if(!desc.equals("\n")){
+                if(!desc.equals("")){
                     product.setDescription(name);
                 }
                 product.setprice(price);
@@ -149,6 +151,59 @@ public class HandlerProducts {
             System.out.println("oh no! the input was type wrong.\n come back and try again.");
             scanner.nextLine();
             scanner.nextLine();
+        }
+    }
+
+    public void updateDatabase() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Let's update the database config!");
+            System.out.println("Give me all the data to update database connection.");
+            System.out.print("Host["+ MysqlConnection.getHost() +"]:");
+            String host = scanner.nextLine();
+            System.out.print("Port["+MysqlConnection.getPort()+"]:");
+            String port = scanner.nextLine();
+            System.out.print("Database["+ MysqlConnection.getDatabase() +"]:");
+            String database = scanner.nextLine();
+            System.out.print("User["+MysqlConnection.getUser()+"]:");
+            String user = scanner.nextLine();
+            System.out.print("Password:");
+            String password = scanner.nextLine();
+            // update info
+            if(!host.equals("")){
+                MysqlConnection.setHost(host);
+            }
+            if(tryParseInt(port) && !port.equals("")){
+               MysqlConnection.setPort(Integer.parseInt(port));
+            }
+            if(!database.equals("")){
+                MysqlConnection.setDatabase(database);
+            }
+            if(!user.equals("")){
+                MysqlConnection.setDatabaseUser(user);
+            }
+            //password can be empty
+            MysqlConnection.setDatabasePassword(password);
+            //reload connection with database
+            MysqlConnection.reloadStringConnection();
+            // show changes
+            //System.out.println(MysqlConnection.getConnectionString());
+            //System.out.println(MysqlConnection.getUser());
+            //System.out.println(MysqlConnection.getPassword());
+            System.out.println("database information was updated!");
+            scanner.nextLine();
+        }catch (InputMismatchException ex) {
+            System.out.println("oh no! the input was type wrong.\n come back and try again.");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
+    }
+
+    public boolean tryParseInt(String value) {
+        try {
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
